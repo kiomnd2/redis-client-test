@@ -1,8 +1,20 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '3.1.1'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group 'kr.redis-test'
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+group 'kr.rediscli'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -10,8 +22,26 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
+
+    implementation (
+            'org.mapstruct:mapstruct:1.5.3.Final',
+            'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    )
+
+    annotationProcessor (
+            'org.mapstruct:mapstruct-processor:1.5.3.Final',
+            'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    )
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
