@@ -12,14 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class LikeServiceType1 {
     private final LikeRepository likeRepository;
-    private final static String LIKE_COUNT = "LIKE_COUNT";
+    public final static String LIKE_COUNT = "LIKE_COUNT";
 
     @CacheEvict(cacheNames = LIKE_COUNT, key = "#like.userId", cacheManager = "cacheManager")
     public void insertLike(Likes like) {
         likeRepository.save(like);
     }
 
-    @Cacheable(cacheNames = LIKE_COUNT, key = "#userId",cacheManager = "cacheManager")
+    @Cacheable(cacheNames = LIKE_COUNT, key = "#userId", value = "LIKE_COUNT", cacheManager = "cacheManager")
     public Likes getLike(String userId) {
         return likeRepository.findByUserId(userId)
                 .orElseThrow(()-> new RuntimeException("찾을 수 없음"));
